@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionário de Escola 2025</title>
+  <style>
+    :root {
+      --bg: #edf3ef;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #607080;
+      --line: #d9e2dc;
+      --accent: #1f7a5a;
+      --accent-strong: #165640;
+      --accent-soft: #e8f5ef;
+      --shadow: 0 10px 24px rgba(21, 40, 34, 0.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(180deg, #d9ecdf 0 180px, var(--bg) 180px 100%);
+      color: var(--ink);
+    }
+
+    .page {
+      width: min(980px, calc(100% - 24px));
+      margin: 20px auto 48px;
+    }
+
+    .hero, .sidebar, .section, .records {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 24px;
+      border-top: 12px solid var(--accent);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p, .section-note, .legend, .hint, .note, .record-meta {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .actions, .record-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .secondary {
+      background: #fff;
+      color: var(--accent-strong);
+      border: 1px solid var(--line);
+    }
+
+    .layout {
+      display: block;
+      margin-top: 24px;
+    }
+
+    .sidebar {
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 16px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-strong);
+    }
+
+    .summary-list, form, .records-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-item, .record-card {
+      background: #f8fbf9;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .summary-item strong, .summary-item span, .record-card strong, .record-card span {
+      display: block;
+    }
+
+    .panel {
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .section, .records {
+      padding: 22px;
+      border-top: 6px solid var(--accent);
+    }
+
+    .section h3, .records h3 {
+      margin: 0 0 8px;
+      color: var(--accent-strong);
+      font-size: 1.25rem;
+    }
+
+    .grid, .integration-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      grid-column: span 12;
+      display: grid;
+      gap: 8px;
+    }
+
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-3 { grid-column: span 3; }
+
+    label, .group-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #c8d3cb;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    textarea { min-height: 90px; resize: vertical; }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .option input { width: auto; margin-top: 2px; }
+
+    .subsection {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid #cfe0d5;
+      border-radius: 14px;
+      background: #f8fbf9;
+    }
+
+    .subsection h4 {
+      margin: 0 0 12px;
+      color: var(--accent-strong);
+      font-size: 1rem;
+    }
+
+    .footer-actions, .records-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-size: 0.94rem;
+    }
+
+    .export-area {
+      margin-top: 18px;
+      background: #173029;
+      color: #eaf4f2;
+      border-radius: 16px;
+      padding: 16px;
+      overflow: auto;
+      font-size: 0.88rem;
+      white-space: pre-wrap;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 1180px); }
+      .hero, .sidebar, .section, .records { padding: 18px; }
+      .span-6, .span-4, .span-3 { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="badge">Censo Escolar 2025 • Formulário de Escola</div>
+      <h1>Questionário de Escola 2025</h1>
+      <p>Versão digital no mesmo padrão do formulário do gestor, preparada para envio à mesma planilha Google em uma aba separada.</p>
+      <div class="actions">
+        <button type="button" class="primary" id="saveDraftTop">Salvar rascunho</button>
+        <button type="button" class="secondary" id="saveDatabaseTop">Salvar no banco</button>
+        <button type="button" class="secondary" id="sendSheetsTop">Enviar para Google Sheets</button>
+        <button type="button" class="secondary" id="exportTop">Gerar JSON</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Resumo</h2>
+        <div class="summary-list">
+          <div class="summary-item"><strong>Escola</strong><span id="summaryNomeEscola">Não informado</span></div>
+          <div class="summary-item"><strong>Código</strong><span id="summaryCodigoEscola">Não informado</span></div>
+          <div class="summary-item"><strong>Dependência</strong><span id="summaryDependencia">Não informado</span></div>
+          <div class="summary-item"><strong>Município</strong><span id="summaryMunicipio">Não informado</span></div>
+          <div class="summary-item"><strong>E-mail</strong><span id="summaryEmail">Não informado</span></div>
+        </div>
+        <p class="legend">Este formulário envia para a mesma planilha do gestor, mas em uma aba específica do questionário da escola.</p>
+
+        <div class="subsection">
+          <h4>Google Sheets</h4>
+          <div class="hint">Cole a mesma URL do Web App já usada no formulário do gestor.</div>
+          <div class="field" style="margin-top: 10px;">
+            <label for="googleScriptUrl">URL do Web App</label>
+            <input id="googleScriptUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+          </div>
+          <div class="actions" style="margin-top: 10px;">
+            <button type="button" class="secondary" id="saveScriptUrl">Salvar URL</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel">
+        <form id="escolaForm">
+          <section class="section">
+            <h3>1. Vinculação institucional</h3>
+            <p class="section-note">Preencha os dados principais de vínculo e regulamentação da escola.</p>
+            <div class="grid">
+              <div class="field span-4">
+                <label for="codigoEscola">Código da escola</label>
+                <input id="codigoEscola" name="codigoEscola" type="text" inputmode="numeric">
+              </div>
+              <div class="field span-4">
+                <label for="dependenciaAdministrativa">Dependência administrativa</label>
+                <select id="dependenciaAdministrativa" name="dependenciaAdministrativa">
+                  <option value="">Selecione</option>
+                  <option>Federal</option>
+                  <option>Estadual</option>
+                  <option>Municipal</option>
+                  <option>Privada</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="localizacaoZona">Localização/zona da escola</label>
+                <select id="localizacaoZona" name="localizacaoZona">
+                  <option value="">Selecione</option>
+                  <option>Urbana</option>
+                  <option>Rural</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="blocoOrgaosPublicos">
+              <h4>Escola pública</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="orgaoVinculado" value="Secretaria de Educação/Ministério da Educação"> Secretaria de Educação/Ministério da Educação</label>
+                <label class="option"><input type="checkbox" name="orgaoVinculado" value="Secretaria da Saúde/Ministério da Saúde"> Secretaria da Saúde/Ministério da Saúde</label>
+                <label class="option"><input type="checkbox" name="orgaoVinculado" value="Secretaria de Segurança Pública/Forças Armadas/Militar"> Secretaria de Segurança Pública/Forças Armadas/Militar</label>
+                <label class="option"><input type="checkbox" name="orgaoVinculado" value="Outro órgão da administração pública"> Outro órgão da administração pública</label>
+              </div>
+              <div class="grid" style="margin-top: 14px;">
+                <div class="field span-6">
+                  <label for="orgaoRegionalEnsino">Órgão regional de ensino</label>
+                  <input id="orgaoRegionalEnsino" name="orgaoRegionalEnsino" type="text">
+                </div>
+                <div class="field span-6">
+                  <label for="regulamentacao">Regulamentação/autorização</label>
+                  <select id="regulamentacao" name="regulamentacao">
+                    <option value="">Selecione</option>
+                    <option>Sim</option>
+                    <option>Em tramitação</option>
+                    <option>Não</option>
+                  </select>
+                </div>
+              </div>
+              <div class="options" style="margin-top: 14px;">
+                <label class="option"><input type="checkbox" name="esferaRegulamentacao" value="Federal"> Federal</label>
+                <label class="option"><input type="checkbox" name="esferaRegulamentacao" value="Estadual"> Estadual</label>
+                <label class="option"><input type="checkbox" name="esferaRegulamentacao" value="Municipal"> Municipal</label>
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="blocoPrivada">
+              <h4>Escola privada</h4>
+              <div class="grid">
+                <div class="field span-4">
+                  <label for="categoriaPrivada">Categoria da escola privada</label>
+                  <select id="categoriaPrivada" name="categoriaPrivada">
+                    <option value="">Selecione</option>
+                    <option>Particular</option>
+                    <option>Comunitária</option>
+                    <option>Confessional</option>
+                    <option>Filantrópica</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="cnpjMantenedora">CNPJ da mantenedora principal</label>
+                  <input id="cnpjMantenedora" name="cnpjMantenedora" type="text">
+                </div>
+                <div class="field span-4">
+                  <label for="cnpjEscola">CNPJ da escola privada</label>
+                  <input id="cnpjEscola" name="cnpjEscola" type="text">
+                </div>
+              </div>
+              <div class="options" style="margin-top: 14px;">
+                <label class="option"><input type="checkbox" name="mantenedoraPrivada" value="Empresa ou grupo empresarial do setor privado ou pessoa física"> Empresa ou grupo empresarial do setor privado ou pessoa física</label>
+                <label class="option"><input type="checkbox" name="mantenedoraPrivada" value="Sindicatos, associações ou cooperativas"> Sindicatos, associações ou cooperativas</label>
+                <label class="option"><input type="checkbox" name="mantenedoraPrivada" value="Instituição sem fins lucrativos"> Instituição sem fins lucrativos</label>
+                <label class="option"><input type="checkbox" name="mantenedoraPrivada" value="ONG"> Organização não governamental (ONG)</label>
+                <label class="option"><input type="checkbox" name="mantenedoraPrivada" value="Sistema S"> Sistema S</label>
+                <label class="option"><input type="checkbox" name="mantenedoraPrivada" value="Oscip"> Oscip</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>2. Convênio e funcionamento</h3>
+            <p class="section-note">Informe situação de convênio, funcionamento e período letivo.</p>
+            <div class="grid">
+              <div class="field span-4">
+                <label for="possuiConvenio">Possui parceria ou convênio?</label>
+                <select id="possuiConvenio" name="possuiConvenio">
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="situacaoFuncionamento">Situação de funcionamento</label>
+                <select id="situacaoFuncionamento" name="situacaoFuncionamento">
+                  <option value="">Selecione</option>
+                  <option>Em atividade</option>
+                  <option>Paralisada</option>
+                  <option>Extinta</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="anoLetivo">Ano letivo</label>
+                <input id="anoLetivo" name="anoLetivo" type="number" min="2025" max="2100">
+              </div>
+              <div class="field span-6">
+                <label for="inicioAnoLetivo">Início do ano letivo</label>
+                <input id="inicioAnoLetivo" name="inicioAnoLetivo" type="date">
+              </div>
+              <div class="field span-6">
+                <label for="fimAnoLetivo">Término do ano letivo</label>
+                <input id="fimAnoLetivo" name="fimAnoLetivo" type="date">
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="blocoConvenio">
+              <h4>Detalhes do convênio</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="poderConvenio" value="Secretaria estadual"> Secretaria estadual</label>
+                <label class="option"><input type="checkbox" name="poderConvenio" value="Secretaria municipal"> Secretaria municipal</label>
+              </div>
+              <div class="options" style="margin-top: 14px;">
+                <label class="option"><input type="checkbox" name="formaContratacao" value="Termo de colaboração"> Termo de colaboração</label>
+                <label class="option"><input type="checkbox" name="formaContratacao" value="Acordo de cooperação"> Acordo de cooperação</label>
+                <label class="option"><input type="checkbox" name="formaContratacao" value="Termo de cooperação técnica e financeira"> Termo de cooperação técnica e financeira</label>
+                <label class="option"><input type="checkbox" name="formaContratacao" value="Termo de fomento"> Termo de fomento</label>
+                <label class="option"><input type="checkbox" name="formaContratacao" value="Contrato de prestação de serviço"> Contrato de prestação de serviço</label>
+                <label class="option"><input type="checkbox" name="formaContratacao" value="Contrato de consórcio público/convênio de cooperação"> Contrato de consórcio público/convênio de cooperação</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>3. Identificação da escola</h3>
+            <p class="section-note">Dados cadastrais, localização e contatos da escola.</p>
+            <div class="grid">
+              <div class="field span-12">
+                <label for="nomeEscola">Nome da escola</label>
+                <input id="nomeEscola" name="nomeEscola" type="text">
+              </div>
+              <div class="field span-3"><label for="cep">CEP</label><input id="cep" name="cep" type="text"></div>
+              <div class="field span-3"><label for="uf">UF</label><input id="uf" name="uf" type="text" maxlength="2"></div>
+              <div class="field span-6"><label for="municipio">Município</label><input id="municipio" name="municipio" type="text"></div>
+              <div class="field span-4"><label for="regiaoAdministrativa">Região Administrativa</label><input id="regiaoAdministrativa" name="regiaoAdministrativa" type="text"></div>
+              <div class="field span-4"><label for="distrito">Distrito</label><input id="distrito" name="distrito" type="text"></div>
+              <div class="field span-4">
+                <label for="localizacaoDiferenciada">Localização diferenciada</label>
+                <select id="localizacaoDiferenciada" name="localizacaoDiferenciada">
+                  <option value="">Selecione</option>
+                  <option>Não está em área de localização diferenciada</option>
+                  <option>Área de assentamento</option>
+                  <option>Comunidade quilombola</option>
+                  <option>Terra indígena</option>
+                  <option>Área onde se localizam povos e comunidades tradicionais</option>
+                </select>
+              </div>
+              <div class="field span-8"><label for="endereco">Endereço</label><input id="endereco" name="endereco" type="text"></div>
+              <div class="field span-2"><label for="numero">Número</label><input id="numero" name="numero" type="text"></div>
+              <div class="field span-2"><label for="complemento">Complemento</label><input id="complemento" name="complemento" type="text"></div>
+              <div class="field span-4"><label for="bairro">Bairro</label><input id="bairro" name="bairro" type="text"></div>
+              <div class="field span-2"><label for="ddd">DDD</label><input id="ddd" name="ddd" type="text"></div>
+              <div class="field span-3"><label for="telefone">Telefone</label><input id="telefone" name="telefone" type="text"></div>
+              <div class="field span-3"><label for="telefone2">Outro telefone</label><input id="telefone2" name="telefone2" type="text"></div>
+              <div class="field span-6"><label for="emailEscola">E-mail da escola</label><input id="emailEscola" name="emailEscola" type="email"></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4. Estrutura física e serviços</h3>
+            <p class="section-note">Informações principais sobre funcionamento do prédio, água, energia e dependências.</p>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="localFuncionamento" value="Prédio escolar"> Prédio escolar</label>
+              <label class="option"><input type="checkbox" name="localFuncionamento" value="Sala(s) em outra escola"> Sala(s) em outra escola</label>
+              <label class="option"><input type="checkbox" name="localFuncionamento" value="Galpão/rancho/paiol/barracão"> Galpão/rancho/paiol/barracão</label>
+              <label class="option"><input type="checkbox" name="localFuncionamento" value="Unidade prisional"> Unidade prisional</label>
+              <label class="option"><input type="checkbox" name="localFuncionamento" value="Unidade de atendimento socioeducativo"> Unidade de atendimento socioeducativo</label>
+              <label class="option"><input type="checkbox" name="localFuncionamento" value="Outros"> Outros</label>
+            </div>
+            <div class="grid" style="margin-top: 14px;">
+              <div class="field span-4">
+                <label for="ocupacaoPredio">Forma de ocupação do prédio</label>
+                <select id="ocupacaoPredio" name="ocupacaoPredio">
+                  <option value="">Selecione</option>
+                  <option>Próprio</option>
+                  <option>Alugado</option>
+                  <option>Cedido</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="compartilhaPredio">Compartilha prédio com outra instituição?</label>
+                <select id="compartilhaPredio" name="compartilhaPredio">
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                </select>
+              </div>
+              <div class="field span-4 hidden" id="fieldCodigoCompartilha">
+                <label for="codigoEscolaCompartilha">Código da escola com a qual compartilha</label>
+                <input id="codigoEscolaCompartilha" name="codigoEscolaCompartilha" type="text">
+              </div>
+              <div class="field span-4">
+                <label for="aguaPotavel">Fornece água potável?</label>
+                <select id="aguaPotavel" name="aguaPotavel">
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h4>Infraestrutura de serviços básicos</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="abastecimentoAgua" value="Rede pública"> Rede pública</label>
+                <label class="option"><input type="checkbox" name="abastecimentoAgua" value="Poço artesiano"> Poço artesiano</label>
+                <label class="option"><input type="checkbox" name="abastecimentoAgua" value="Cacimba/cisterna/poço"> Cacimba/cisterna/poço</label>
+                <label class="option"><input type="checkbox" name="abastecimentoAgua" value="Carro-pipa"> Carro-pipa</label>
+                <label class="option"><input type="checkbox" name="abastecimentoAgua" value="Fonte/rio/igarapé/riacho/córrego"> Fonte/rio/igarapé/riacho/córrego</label>
+                <label class="option"><input type="checkbox" name="abastecimentoAgua" value="Não há abastecimento de água"> Não há abastecimento de água</label>
+              </div>
+              <div class="options" style="margin-top: 14px;">
+                <label class="option"><input type="checkbox" name="energiaEletrica" value="Rede pública"> Rede pública</label>
+                <label class="option"><input type="checkbox" name="energiaEletrica" value="Fontes de energia renováveis ou alternativas"> Fontes de energia renováveis ou alternativas</label>
+                <label class="option"><input type="checkbox" name="energiaEletrica" value="Gerador movido a combustível fóssil"> Gerador movido a combustível fóssil</label>
+                <label class="option"><input type="checkbox" name="energiaEletrica" value="Não há energia elétrica"> Não há energia elétrica</label>
+              </div>
+              <div class="options" style="margin-top: 14px;">
+                <label class="option"><input type="checkbox" name="esgotamentoSanitario" value="Rede pública"> Rede pública</label>
+                <label class="option"><input type="checkbox" name="esgotamentoSanitario" value="Fossa séptica"> Fossa séptica</label>
+                <label class="option"><input type="checkbox" name="esgotamentoSanitario" value="Fossa rudimentar/comum"> Fossa rudimentar/comum</label>
+                <label class="option"><input type="checkbox" name="esgotamentoSanitario" value="Não há esgotamento sanitário"> Não há esgotamento sanitário</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5. Dependências, acessibilidade e salas</h3>
+            <p class="section-note">Selecione as dependências existentes e informe quantidades principais.</p>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Sala de diretoria"> Sala de diretoria</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Sala de professores"> Sala de professores</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Sala de secretaria"> Sala de secretaria</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Biblioteca"> Biblioteca</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Sala de leitura"> Sala de leitura</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Laboratório de ciências"> Laboratório de ciências</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Laboratório de informática"> Laboratório de informática</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Cozinha"> Cozinha</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Refeitório"> Refeitório</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Banheiro"> Banheiro</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Banheiro acessível"> Banheiro acessível</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Quadra de esportes coberta"> Quadra de esportes coberta</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Quadra de esportes descoberta"> Quadra de esportes descoberta</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Parque infantil"> Parque infantil</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Pátio coberto"> Pátio coberto</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Pátio descoberto"> Pátio descoberto</label>
+              <label class="option"><input type="checkbox" name="dependenciasFisicas" value="Nenhuma das opções relacionadas"> Nenhuma das opções relacionadas</label>
+            </div>
+            <div class="subsection">
+              <h4>Recursos de acessibilidade</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Corrimão e guarda-corpos"> Corrimão e guarda-corpos</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Pisos táteis"> Pisos táteis</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Rampas"> Rampas</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Elevador"> Elevador</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Portas com vão livre de no mínimo 80 cm"> Portas com vão livre de no mínimo 80 cm</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Sinalização sonora"> Sinalização sonora</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Sinalização visual"> Sinalização visual</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Sinalização tátil"> Sinalização tátil</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Sinalização/alarme luminoso"> Sinalização/alarme luminoso</label>
+                <label class="option"><input type="checkbox" name="acessibilidade" value="Nenhum dos recursos de acessibilidade listados"> Nenhum dos recursos de acessibilidade listados</label>
+              </div>
+            </div>
+            <div class="grid" style="margin-top: 14px;">
+              <div class="field span-4"><label for="salasAula">Quantidade de salas de aula</label><input id="salasAula" name="salasAula" type="number" min="0"></div>
+              <div class="field span-4"><label for="salasClimatizadas">Salas climatizadas</label><input id="salasClimatizadas" name="salasClimatizadas" type="number" min="0"></div>
+              <div class="field span-4"><label for="salasAcessiveis">Salas com acessibilidade</label><input id="salasAcessiveis" name="salasAcessiveis" type="number" min="0"></div>
+              <div class="field span-6"><label for="cantinhoLeitura">Salas com Cantinho da Leitura</label><input id="cantinhoLeitura" name="cantinhoLeitura" type="number" min="0"></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>6. Tecnologia e internet</h3>
+            <p class="section-note">Equipamentos e recursos tecnológicos em uso na escola.</p>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="equipamentosAdministrativos" value="Antena parabólica"> Antena parabólica</label>
+              <label class="option"><input type="checkbox" name="equipamentosAdministrativos" value="Copiadora"> Copiadora</label>
+              <label class="option"><input type="checkbox" name="equipamentosAdministrativos" value="Impressora"> Impressora</label>
+              <label class="option"><input type="checkbox" name="equipamentosAdministrativos" value="Impressora multifuncional"> Impressora multifuncional</label>
+              <label class="option"><input type="checkbox" name="equipamentosAdministrativos" value="Computadores"> Computadores</label>
+              <label class="option"><input type="checkbox" name="equipamentosAdministrativos" value="Scanner"> Scanner</label>
+              <label class="option"><input type="checkbox" name="equipamentosAdministrativos" value="Nenhum dos equipamentos listados"> Nenhum dos equipamentos listados</label>
+            </div>
+            <div class="grid" style="margin-top: 14px;">
+              <div class="field span-4"><label for="qtdTv">Aparelhos de televisão</label><input id="qtdTv" name="qtdTv" type="number" min="0"></div>
+              <div class="field span-4"><label for="qtdProjetor">Projetores multimídia</label><input id="qtdProjetor" name="qtdProjetor" type="number" min="0"></div>
+              <div class="field span-4"><label for="qtdLousaDigital">Lousas digitais</label><input id="qtdLousaDigital" name="qtdLousaDigital" type="number" min="0"></div>
+              <div class="field span-4"><label for="qtdDesktop">Computadores de mesa para alunos</label><input id="qtdDesktop" name="qtdDesktop" type="number" min="0"></div>
+              <div class="field span-4"><label for="qtdPortateis">Computadores portáteis para alunos</label><input id="qtdPortateis" name="qtdPortateis" type="number" min="0"></div>
+              <div class="field span-4"><label for="qtdTablets">Tablets para alunos</label><input id="qtdTablets" name="qtdTablets" type="number" min="0"></div>
+            </div>
+            <div class="subsection">
+              <h4>Internet e rede</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="redeLocal" value="A cabo"> A cabo</label>
+                <label class="option"><input type="checkbox" name="redeLocal" value="Wireless"> Wireless</label>
+                <label class="option"><input type="checkbox" name="redeLocal" value="Não há rede local interligando computadores"> Não há rede local interligando computadores</label>
+              </div>
+              <div class="options" style="margin-top: 14px;">
+                <label class="option"><input type="checkbox" name="acessoInternet" value="Não possui acesso à internet"> Não possui acesso à internet</label>
+                <label class="option"><input type="checkbox" name="acessoInternet" value="Para uso administrativo"> Para uso administrativo</label>
+                <label class="option"><input type="checkbox" name="acessoInternet" value="Para uso no processo de ensino-aprendizagem"> Para uso no processo de ensino-aprendizagem</label>
+                <label class="option"><input type="checkbox" name="acessoInternet" value="Para uso dos alunos"> Para uso dos alunos</label>
+                <label class="option"><input type="checkbox" name="acessoInternet" value="Para uso da comunidade"> Para uso da comunidade</label>
+              </div>
+              <div class="options" style="margin-top: 14px;">
+                <label class="option"><input type="checkbox" name="equipamentosInternetAlunos" value="Equipamentos da escola"> Equipamentos da escola</label>
+                <label class="option"><input type="checkbox" name="equipamentosInternetAlunos" value="Dispositivos pessoais"> Dispositivos pessoais</label>
+              </div>
+              <div class="grid" style="margin-top: 14px;">
+                <div class="field span-4">
+                  <label for="internetBandaLarga">Internet banda larga</label>
+                  <select id="internetBandaLarga" name="internetBandaLarga">
+                    <option value="">Selecione</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>7. Recursos humanos e organização escolar</h3>
+            <p class="section-note">Quantidades resumidas de profissionais e informações pedagógicas da escola.</p>
+            <div class="grid">
+              <div class="field span-4"><label for="totalAuxiliaresAdministrativos">Auxiliares administrativos</label><input id="totalAuxiliaresAdministrativos" name="totalAuxiliaresAdministrativos" type="number" min="0"></div>
+              <div class="field span-4"><label for="totalServicosGerais">Serviços gerais</label><input id="totalServicosGerais" name="totalServicosGerais" type="number" min="0"></div>
+              <div class="field span-4"><label for="totalBiblioteca">Biblioteca / sala de leitura</label><input id="totalBiblioteca" name="totalBiblioteca" type="number" min="0"></div>
+              <div class="field span-4"><label for="totalCozinha">Cozinha / merenda</label><input id="totalCozinha" name="totalCozinha" type="number" min="0"></div>
+              <div class="field span-4"><label for="totalPedagogico">Apoio e supervisão pedagógica</label><input id="totalPedagogico" name="totalPedagogico" type="number" min="0"></div>
+              <div class="field span-4"><label for="totalViceDirecao">Vice-direção / gestão administrativa</label><input id="totalViceDirecao" name="totalViceDirecao" type="number" min="0"></div>
+            </div>
+            <div class="subsection">
+              <h4>Organização escolar</h4>
+              <div class="grid">
+                <div class="field span-4">
+                  <label for="alimentacaoEscolar">Alimentação escolar</label>
+                  <select id="alimentacaoEscolar" name="alimentacaoEscolar">
+                    <option value="">Selecione</option>
+                    <option>Oferece</option>
+                    <option>Não oferece</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="escolaIndigena">Escola indígena</label>
+                  <select id="escolaIndigena" name="escolaIndigena">
+                    <option value="">Selecione</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="educacaoAmbiental">Desenvolve ações de educação ambiental?</label>
+                  <select id="educacaoAmbiental" name="educacaoAmbiental">
+                    <option value="">Selecione</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                  </select>
+                </div>
+              </div>
+              <div class="subsection hidden" id="blocoEscolaIndigena">
+                <h4>Línguas em que o ensino é ministrado</h4>
+                <div class="options">
+                  <label class="option"><input type="checkbox" name="linguasEnsino" value="Língua Indígena"> Língua Indígena</label>
+                  <label class="option"><input type="checkbox" name="linguasEnsino" value="Língua Portuguesa"> Língua Portuguesa</label>
+                </div>
+                <div class="grid" style="margin-top: 14px;">
+                  <div class="field span-6"><label for="codigoLinguaIndigena1">Código de Língua Indígena 1</label><input id="codigoLinguaIndigena1" name="codigoLinguaIndigena1" type="text"></div>
+                  <div class="field span-6"><label for="codigoLinguaIndigena2">Código de Língua Indígena 2</label><input id="codigoLinguaIndigena2" name="codigoLinguaIndigena2" type="text"></div>
+                </div>
+              </div>
+              <div class="subsection hidden" id="blocoEducacaoAmbiental">
+                <h4>Formas de desenvolvimento da educação ambiental</h4>
+                <div class="options">
+                  <label class="option"><input type="checkbox" name="formasEducacaoAmbiental" value="Como conteúdo do currículo"> Como conteúdo do currículo</label>
+                  <label class="option"><input type="checkbox" name="formasEducacaoAmbiental" value="Como componente curricular especial"> Como componente curricular especial</label>
+                  <label class="option"><input type="checkbox" name="formasEducacaoAmbiental" value="Como eixo estruturante do currículo"> Como eixo estruturante do currículo</label>
+                  <label class="option"><input type="checkbox" name="formasEducacaoAmbiental" value="Em eventos"> Em eventos</label>
+                  <label class="option"><input type="checkbox" name="formasEducacaoAmbiental" value="Em projetos transversais ou interdisciplinares"> Em projetos transversais ou interdisciplinares</label>
+                  <label class="option"><input type="checkbox" name="formasEducacaoAmbiental" value="Nenhuma das opções listadas"> Nenhuma das opções listadas</label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>8. Participação e acesso</h3>
+            <p class="section-note">Informações institucionais, comunicação e critérios de ingresso.</p>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="orgaosColegiados" value="Associação de pais"> Associação de pais</label>
+              <label class="option"><input type="checkbox" name="orgaosColegiados" value="Associação de pais e mestres"> Associação de pais e mestres</label>
+              <label class="option"><input type="checkbox" name="orgaosColegiados" value="Conselho escolar"> Conselho escolar</label>
+              <label class="option"><input type="checkbox" name="orgaosColegiados" value="Grêmio estudantil"> Grêmio estudantil</label>
+              <label class="option"><input type="checkbox" name="orgaosColegiados" value="Outros"> Outros</label>
+              <label class="option"><input type="checkbox" name="orgaosColegiados" value="Não há órgãos colegiados em funcionamento"> Não há órgãos colegiados em funcionamento</label>
+            </div>
+            <div class="grid" style="margin-top: 14px;">
+              <div class="field span-4">
+                <label for="compartilhaEspacosComunidade">Compartilha espaços para integração escola-comunidade?</label>
+                <select id="compartilhaEspacosComunidade" name="compartilhaEspacosComunidade">
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="usaEntornoEscolar">Usa espaços/equipamentos do entorno?</label>
+                <select id="usaEntornoEscolar" name="usaEntornoEscolar">
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="possuiSiteOuRedes">Possui site, blog ou redes sociais?</label>
+                <select id="possuiSiteOuRedes" name="possuiSiteOuRedes">
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="fazExameSelecao">Faz exame de seleção para ingresso?</label>
+                <select id="fazExameSelecao" name="fazExameSelecao">
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                </select>
+              </div>
+            </div>
+            <div class="subsection">
+              <h4>Reserva de vagas por cotas</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="cotas" value="Sem reservas de vagas para sistema de cotas"> Sem reservas de vagas para sistema de cotas</label>
+                <label class="option"><input type="checkbox" name="cotas" value="Autodeclarado preto, pardo ou indígena (PPI)"> Autodeclarado preto, pardo ou indígena (PPI)</label>
+                <label class="option"><input type="checkbox" name="cotas" value="Condição de renda"> Condição de renda</label>
+                <label class="option"><input type="checkbox" name="cotas" value="Oriundo de escola pública"> Oriundo de escola pública</label>
+                <label class="option"><input type="checkbox" name="cotas" value="Pessoa com deficiência (PCD)"> Pessoa com deficiência (PCD)</label>
+                <label class="option"><input type="checkbox" name="cotas" value="Outros grupos que não os listados"> Outros grupos que não os listados</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>9. Observações</h3>
+            <p class="section-note">Campo livre para observações adicionais.</p>
+            <div class="field">
+              <label for="observacoes">Observações</label>
+              <textarea id="observacoes" name="observacoes"></textarea>
+            </div>
+          </section>
+
+          <div class="footer-actions">
+            <span class="note">Você pode salvar localmente, enviar para a mesma planilha ou exportar os dados em JSON.</span>
+            <div class="actions">
+              <button type="button" class="secondary" id="clearDraft">Limpar rascunho</button>
+              <button type="button" class="secondary" id="saveDatabaseBottom">Salvar no banco</button>
+              <button type="button" class="secondary" id="sendSheetsBottom">Enviar para Google Sheets</button>
+              <button type="button" class="secondary" id="exportBottom">Gerar JSON</button>
+              <button type="submit" class="primary">Validar e preparar dados</button>
+            </div>
+          </div>
+        </form>
+
+        <section class="records">
+          <div class="records-header">
+            <div>
+              <h3>Banco de dados local</h3>
+              <p class="section-note">As respostas da escola ficam salvas neste navegador e podem ser recarregadas.</p>
+            </div>
+            <button type="button" class="secondary" id="exportDatabase">Exportar banco em JSON</button>
+          </div>
+          <div class="status" id="dbStatus">Banco pronto para receber respostas.</div>
+          <div class="records-list" id="recordsList"></div>
+        </section>
+
+        <section class="records">
+          <div class="records-header">
+            <div>
+              <h3>Integração com Google Sheets</h3>
+              <p class="section-note">Os envios deste formulário são gravados em outra aba da mesma planilha.</p>
+            </div>
+          </div>
+          <div class="status" id="sheetStatus">Integração ainda não configurada.</div>
+        </section>
+
+        <pre class="export-area hidden" id="exportArea"></pre>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("escolaForm");
+    const exportArea = document.getElementById("exportArea");
+    const dbStatus = document.getElementById("dbStatus");
+    const sheetStatus = document.getElementById("sheetStatus");
+    const recordsList = document.getElementById("recordsList");
+    const storageKey = "questionario-escola-2025";
+    const scriptUrlStorageKey = "questionario-escola-google-script-url";
+    const dbName = "questionario-escola-db";
+    const dbVersion = 1;
+    const storeName = "respostas";
+    let db;
+
+    const refs = {
+      dependenciaAdministrativa: document.getElementById("dependenciaAdministrativa"),
+      blocoOrgaosPublicos: document.getElementById("blocoOrgaosPublicos"),
+      blocoPrivada: document.getElementById("blocoPrivada"),
+      possuiConvenio: document.getElementById("possuiConvenio"),
+      blocoConvenio: document.getElementById("blocoConvenio"),
+      compartilhaPredio: document.getElementById("compartilhaPredio"),
+      fieldCodigoCompartilha: document.getElementById("fieldCodigoCompartilha"),
+      escolaIndigena: document.getElementById("escolaIndigena"),
+      blocoEscolaIndigena: document.getElementById("blocoEscolaIndigena"),
+      educacaoAmbiental: document.getElementById("educacaoAmbiental"),
+      blocoEducacaoAmbiental: document.getElementById("blocoEducacaoAmbiental")
+    };
+
+    function toggleSection(element, show) {
+      element.classList.toggle("hidden", !show);
+    }
+
+    function setStatus(message) {
+      dbStatus.textContent = message;
+    }
+
+    function setSheetStatus(message) {
+      sheetStatus.textContent = message;
+    }
+
+    function getScriptUrl() {
+      return (document.getElementById("googleScriptUrl").value || "").trim();
+    }
+
+    function loadScriptUrl() {
+      const saved = localStorage.getItem(scriptUrlStorageKey) || localStorage.getItem("questionario-gestor-escolar-google-script-url") || "";
+      document.getElementById("googleScriptUrl").value = saved;
+      setSheetStatus(saved ? "URL do Google Sheets configurada e pronta para envio." : "Integração ainda não configurada.");
+    }
+
+    function saveScriptUrl() {
+      const value = getScriptUrl();
+      if (!value) {
+        setSheetStatus("Informe a URL do Web App do Google Apps Script.");
+        return;
+      }
+      if (!value.includes("/exec")) {
+        setSheetStatus("Use a URL publicada do Web App, de preferência terminando com /exec.");
+        return;
+      }
+      localStorage.setItem(scriptUrlStorageKey, value);
+      setSheetStatus("URL do Google Sheets salva neste navegador.");
+    }
+
+    function downloadJson(filename, data) {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function formDataToObject() {
+      const data = new FormData(form);
+      const result = {};
+
+      for (const [key, value] of data.entries()) {
+        if (result[key]) {
+          if (!Array.isArray(result[key])) result[key] = [result[key]];
+          result[key].push(value);
+        } else {
+          result[key] = value;
+        }
+      }
+
+      [
+        "orgaoVinculado","esferaRegulamentacao","mantenedoraPrivada","poderConvenio","formaContratacao",
+        "localFuncionamento","abastecimentoAgua","energiaEletrica","esgotamentoSanitario","dependenciasFisicas",
+        "acessibilidade","equipamentosAdministrativos","redeLocal","acessoInternet","equipamentosInternetAlunos",
+        "linguasEnsino","formasEducacaoAmbiental","orgaosColegiados","cotas"
+      ].forEach((name) => {
+        if (!result[name]) result[name] = [];
+        else if (!Array.isArray(result[name])) result[name] = [result[name]];
+      });
+
+      return result;
+    }
+
+    function renderSummary(data) {
+      document.getElementById("summaryNomeEscola").textContent = data.nomeEscola || "Não informado";
+      document.getElementById("summaryCodigoEscola").textContent = data.codigoEscola || "Não informado";
+      document.getElementById("summaryDependencia").textContent = data.dependenciaAdministrativa || "Não informado";
+      document.getElementById("summaryMunicipio").textContent = data.municipio || "Não informado";
+      document.getElementById("summaryEmail").textContent = data.emailEscola || "Não informado";
+    }
+
+    function syncConditionalBlocks() {
+      const dep = refs.dependenciaAdministrativa.value;
+      toggleSection(refs.blocoOrgaosPublicos, dep && dep !== "Privada");
+      toggleSection(refs.blocoPrivada, dep === "Privada");
+      toggleSection(refs.blocoConvenio, refs.possuiConvenio.value === "Sim");
+      toggleSection(refs.fieldCodigoCompartilha, refs.compartilhaPredio.value === "Sim");
+      toggleSection(refs.blocoEscolaIndigena, refs.escolaIndigena.value === "Sim");
+      toggleSection(refs.blocoEducacaoAmbiental, refs.educacaoAmbiental.value === "Sim");
+    }
+
+    function saveDraft() {
+      const data = formDataToObject();
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      renderSummary(data);
+      alert("Rascunho salvo neste navegador.");
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) {
+        renderSummary({});
+        syncConditionalBlocks();
+        return;
+      }
+      populateForm(JSON.parse(raw));
+    }
+
+    function clearDraft() {
+      localStorage.removeItem(storageKey);
+      form.reset();
+      syncConditionalBlocks();
+      renderSummary({});
+      exportArea.classList.add("hidden");
+      alert("Rascunho removido.");
+    }
+
+    function exportJson() {
+      const data = formDataToObject();
+      renderSummary(data);
+      exportArea.textContent = JSON.stringify(data, null, 2);
+      exportArea.classList.remove("hidden");
+      exportArea.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function openDatabase() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, dbVersion);
+        request.onupgradeneeded = () => {
+          const database = request.result;
+          if (!database.objectStoreNames.contains(storeName)) {
+            const store = database.createObjectStore(storeName, { keyPath: "id", autoIncrement: true });
+            store.createIndex("codigoEscola", "codigoEscola", { unique: false });
+            store.createIndex("updatedAt", "updatedAt", { unique: false });
+          }
+        };
+        request.onsuccess = () => { db = request.result; resolve(db); };
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function getStore(mode = "readonly") {
+      return db.transaction(storeName, mode).objectStore(storeName);
+    }
+
+    function requestToPromise(request) {
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function listRecords() {
+      const records = await requestToPromise(getStore().getAll());
+      return records.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    }
+
+    async function renderRecords() {
+      const records = await listRecords();
+      recordsList.innerHTML = "";
+      if (!records.length) {
+        recordsList.innerHTML = "<div class='record-card'><strong>Nenhum registro salvo ainda.</strong><span class='record-meta'>Use o botão \"Salvar no banco\" para criar o primeiro cadastro.</span></div>";
+        return;
+      }
+      records.forEach((record) => {
+        const card = document.createElement("div");
+        card.className = "record-card";
+        card.innerHTML = `
+          <strong>${record.nomeEscola || "Escola sem nome"}</strong>
+          <div class="record-meta">Código: ${record.codigoEscola || "Não informado"} • Município: ${record.municipio || "Não informado"} • Atualizado em: ${new Date(record.updatedAt).toLocaleString("pt-BR")}</div>
+          <span>${record.emailEscola || "Sem e-mail"} • ${record.dependenciaAdministrativa || "Sem dependência informada"}</span>
+          <div class="record-actions">
+            <button type="button" class="secondary" data-action="load" data-id="${record.id}">Carregar</button>
+            <button type="button" class="secondary" data-action="export" data-id="${record.id}">Exportar JSON</button>
+          </div>
+        `;
+        recordsList.appendChild(card);
+      });
+    }
+
+    function populateForm(data) {
+      form.reset();
+      Object.entries(data).forEach(([key, value]) => {
+        if (["id", "createdAt", "updatedAt"].includes(key)) return;
+        const fields = form.elements[key];
+        if (!fields) return;
+        if (fields instanceof RadioNodeList) {
+          if (Array.isArray(value)) {
+            Array.from(fields).forEach((field) => { field.checked = value.includes(field.value); });
+          } else {
+            fields.value = value;
+          }
+          return;
+        }
+        if (fields.type === "checkbox") {
+          fields.checked = Array.isArray(value) ? value.includes(fields.value) : fields.value === value;
+          return;
+        }
+        fields.value = Array.isArray(value) ? value[0] : value;
+      });
+      syncConditionalBlocks();
+      renderSummary(formDataToObject());
+    }
+
+    async function saveToDatabase() {
+      const data = formDataToObject();
+      const now = new Date().toISOString();
+      const id = await requestToPromise(getStore("readwrite").add({ ...data, createdAt: now, updatedAt: now }));
+      setStatus(`Resposta salva no banco com sucesso. Registro #${id}.`);
+      await renderRecords();
+    }
+
+    async function getRecordById(id) {
+      return requestToPromise(getStore().get(Number(id)));
+    }
+
+    async function exportDatabase() {
+      const records = await listRecords();
+      downloadJson("questionario-escola-banco.json", records);
+      setStatus(`Exportação concluída com ${records.length} registro(s).`);
+    }
+
+    async function sendToGoogleSheets() {
+      const scriptUrl = getScriptUrl();
+      if (!scriptUrl) {
+        setSheetStatus("Cole a URL do Web App do Google Apps Script antes de enviar.");
+        return;
+      }
+      const payload = {
+        submittedAt: new Date().toISOString(),
+        source: "formulario-escola-2025",
+        data: formDataToObject()
+      };
+      setSheetStatus("Enviando resposta para o Google Sheets...");
+      try {
+        const response = await fetch(scriptUrl, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const rawText = await response.text();
+        let result = {};
+        try { result = rawText ? JSON.parse(rawText) : {}; } catch { result = { rawText }; }
+        if (!response.ok) {
+          const details = result.message || result.rawText || `${response.status} ${response.statusText}`;
+          throw new Error(`HTTP ${response.status}: ${String(details).slice(0, 180)}`);
+        }
+        if (result.ok === false) throw new Error(result.message || result.rawText || "Falha ao gravar na planilha.");
+        setSheetStatus("Resposta enviada com sucesso para o Google Sheets.");
+      } catch (error) {
+        setSheetStatus(`Falha no envio: ${error.message}`);
+      }
+    }
+
+    form.addEventListener("change", () => {
+      syncConditionalBlocks();
+      renderSummary(formDataToObject());
+    });
+    form.addEventListener("input", () => renderSummary(formDataToObject()));
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      exportJson();
+    });
+
+    recordsList.addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) return;
+      const record = await getRecordById(button.dataset.id);
+      if (!record) {
+        setStatus("Não foi possível localizar esse registro no banco.");
+        return;
+      }
+      if (button.dataset.action === "load") {
+        populateForm(record);
+        setStatus(`Registro #${record.id} carregado no formulário.`);
+      }
+      if (button.dataset.action === "export") {
+        downloadJson(`questionario-escola-${record.id}.json`, record);
+        setStatus(`Registro #${record.id} exportado em JSON.`);
+      }
+    });
+
+    document.getElementById("saveDraftTop").addEventListener("click", saveDraft);
+    document.getElementById("saveDatabaseTop").addEventListener("click", saveToDatabase);
+    document.getElementById("saveDatabaseBottom").addEventListener("click", saveToDatabase);
+    document.getElementById("sendSheetsTop").addEventListener("click", sendToGoogleSheets);
+    document.getElementById("sendSheetsBottom").addEventListener("click", sendToGoogleSheets);
+    document.getElementById("exportTop").addEventListener("click", exportJson);
+    document.getElementById("exportBottom").addEventListener("click", exportJson);
+    document.getElementById("clearDraft").addEventListener("click", clearDraft);
+    document.getElementById("exportDatabase").addEventListener("click", exportDatabase);
+    document.getElementById("saveScriptUrl").addEventListener("click", saveScriptUrl);
+
+    async function init() {
+      loadDraft();
+      loadScriptUrl();
+      try {
+        await openDatabase();
+        setStatus("Banco de dados local conectado.");
+        await renderRecords();
+      } catch (error) {
+        setStatus("Não foi possível iniciar o banco de dados local neste navegador.");
+        console.error(error);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
