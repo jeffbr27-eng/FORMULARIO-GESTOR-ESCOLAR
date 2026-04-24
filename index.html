@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionário Gestor Escolar 2025</title>
+  <style>
+    :root {
+      --bg: #edf3ef;
+      --surface: #ffffff;
+      --surface-strong: #ffffff;
+      --ink: #1f2933;
+      --muted: #607080;
+      --line: #d9e2dc;
+      --accent: #1f7a5a;
+      --accent-strong: #165640;
+      --accent-soft: #e8f5ef;
+      --warn: #b35b00;
+      --shadow: 0 10px 24px rgba(21, 40, 34, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        linear-gradient(180deg, #d9ecdf 0 180px, var(--bg) 180px 100%);
+      color: var(--ink);
+    }
+
+    .page {
+      width: min(980px, calc(100% - 24px));
+      margin: 20px auto 48px;
+    }
+
+    .hero {
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      border-top: 12px solid var(--accent);
+    }
+
+    .hero::after {
+      display: none;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button,
+    .button-like {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+    }
+
+    button:hover,
+    .button-like:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .secondary {
+      background: #fff;
+      color: var(--accent-strong);
+      border: 1px solid var(--line);
+    }
+
+    .layout {
+      display: block;
+      margin-top: 24px;
+    }
+
+    .sidebar,
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar {
+      padding: 18px;
+      position: static;
+      margin-bottom: 18px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 16px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-strong);
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-item {
+      background: #f8fbf9;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .summary-item strong,
+    .summary-item span {
+      display: block;
+    }
+
+    .summary-item strong {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .summary-item span {
+      font-size: 1rem;
+      color: var(--ink);
+      min-height: 1.2em;
+    }
+
+    .legend {
+      margin-top: 16px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .panel {
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      border-top: 6px solid var(--accent);
+    }
+
+    .section h3 {
+      margin: 0 0 6px;
+      font-size: 1.35rem;
+      color: var(--accent-strong);
+    }
+
+    .section p.section-note {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      grid-column: span 12;
+      display: grid;
+      gap: 8px;
+    }
+
+    .span-6 {
+      grid-column: span 6;
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-3 {
+      grid-column: span 3;
+    }
+
+    .field label,
+    .group-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .hint {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #c8baa6;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid rgba(13, 107, 95, 0.2);
+      border-color: var(--accent);
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      border-radius: 12px;
+      min-height: 100%;
+    }
+
+    .option input {
+      width: auto;
+      margin-top: 2px;
+    }
+
+    .subsection {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid #cfe0d5;
+      border-radius: 14px;
+      background: #f8fbf9;
+    }
+
+    .subsection h4 {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      color: var(--accent-strong);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+    }
+
+    .footer-actions .note {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .export-area {
+      margin-top: 18px;
+      background: #173029;
+      color: #eaf4f2;
+      border-radius: 16px;
+      padding: 16px;
+      overflow: auto;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .records {
+      margin-top: 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      border-top: 6px solid var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .records-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .records h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--accent-strong);
+    }
+
+    .records-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .record-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: #f8fbf9;
+    }
+
+    .record-card strong,
+    .record-card span {
+      display: block;
+    }
+
+    .record-card strong {
+      margin-bottom: 6px;
+    }
+
+    .record-meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 10px;
+    }
+
+    .record-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-size: 0.94rem;
+    }
+
+    .integration-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 20px, 1180px);
+        margin: 18px auto 36px;
+      }
+
+      .hero,
+      .panel,
+      .sidebar,
+      .section {
+        padding: 18px;
+      }
+
+      .span-6,
+      .span-4,
+      .span-3 {
+        grid-column: span 12;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="badge">Censo Escolar 2025 • Estilo formulário online</div>
+      <h1>Questionário de Gestor(a) Escolar</h1>
+      <p>
+        Versão digital organizada para preenchimento online, com visual de formulário,
+        perguntas por blocos e campos condicionais para facilitar o preenchimento.
+      </p>
+        <div class="actions">
+          <button type="button" class="primary" id="saveDraftTop">Salvar rascunho</button>
+          <button type="button" class="secondary" id="saveDatabaseTop">Salvar no banco</button>
+          <button type="button" class="secondary" id="sendSheetsTop">Enviar para Google Sheets</button>
+          <button type="button" class="secondary" id="exportTop">Gerar JSON</button>
+        </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Resumo</h2>
+        <div class="summary-list">
+          <div class="summary-item">
+            <strong>Gestor(a)</strong>
+            <span id="summaryNome">Não informado</span>
+          </div>
+          <div class="summary-item">
+            <strong>CPF</strong>
+            <span id="summaryCpf">Não informado</span>
+          </div>
+          <div class="summary-item">
+            <strong>Escola</strong>
+            <span id="summaryEscola">Não informado</span>
+          </div>
+          <div class="summary-item">
+            <strong>Vínculo</strong>
+            <span id="summaryVinculo">Não informado</span>
+          </div>
+          <div class="summary-item">
+            <strong>E-mail</strong>
+            <span id="summaryEmail">Não informado</span>
+          </div>
+        </div>
+        <p class="legend">Use este painel para acompanhar os dados principais enquanto preenche o formulário.</p>
+
+        <div class="subsection">
+          <h4>Google Sheets</h4>
+          <div class="hint">
+            Cole a URL do Web App do Google Apps Script para salvar as respostas direto em uma planilha do Drive.
+          </div>
+          <div class="field" style="margin-top: 10px;">
+            <label for="googleScriptUrl">URL do Web App</label>
+            <input id="googleScriptUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+          </div>
+          <div class="actions" style="margin-top: 10px;">
+            <button type="button" class="secondary" id="saveScriptUrl">Salvar URL</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel">
+        <form id="gestorForm">
+          <section class="section">
+            <h3>1. Identificação</h3>
+            <p class="section-note">
+              Preencha os dados básicos do(a) gestor(a) escolar e da escola.
+            </p>
+            <div class="grid">
+              <div class="field span-4">
+                <label for="codigoEscola">Código da escola</label>
+                <input id="codigoEscola" name="codigoEscola" type="text" inputmode="numeric">
+              </div>
+              <div class="field span-4">
+                <label for="identificacaoUnica">Identificação única</label>
+                <input id="identificacaoUnica" name="identificacaoUnica" type="text">
+              </div>
+              <div class="field span-4">
+                <label for="cpf">Número do CPF</label>
+                <input id="cpf" name="cpf" type="text" placeholder="000.000.000-00">
+              </div>
+              <div class="field span-12">
+                <label for="nomeCompleto">Nome completo</label>
+                <input id="nomeCompleto" name="nomeCompleto" type="text">
+              </div>
+              <div class="field span-4">
+                <label for="dataNascimento">Data de nascimento</label>
+                <input id="dataNascimento" name="dataNascimento" type="date">
+              </div>
+              <div class="field span-4">
+                <label for="sexo">Sexo</label>
+                <select id="sexo" name="sexo">
+                  <option value="">Selecione</option>
+                  <option>Masculino</option>
+                  <option>Feminino</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="corRaca">Cor/raça</label>
+                <select id="corRaca" name="corRaca">
+                  <option value="">Selecione</option>
+                  <option>Branca</option>
+                  <option>Preta</option>
+                  <option>Parda</option>
+                  <option>Amarela</option>
+                  <option>Indígena</option>
+                  <option>Não declarada</option>
+                </select>
+              </div>
+              <div class="field span-6">
+                <label for="filiacao1">Filiação 1</label>
+                <input id="filiacao1" name="filiacao1" type="text">
+              </div>
+              <div class="field span-6">
+                <label for="filiacao2">Filiação 2</label>
+                <input id="filiacao2" name="filiacao2" type="text">
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="blocoIndigena">
+              <h4>Dados complementares para cor/raça indígena</h4>
+              <div class="grid">
+                <div class="field span-6">
+                  <label for="codigoPovoIndigena">Código do povo indígena</label>
+                  <input id="codigoPovoIndigena" name="codigoPovoIndigena" type="text">
+                  <div class="hint">Se não houver informação, o modelo público menciona o uso do código 999.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>2. Nacionalidade e nascimento</h3>
+            <p class="section-note">
+              Informe os dados de origem e local de nascimento.
+            </p>
+            <div class="grid">
+              <div class="field span-4">
+                <label for="nacionalidade">Nacionalidade</label>
+                <select id="nacionalidade" name="nacionalidade">
+                  <option value="">Selecione</option>
+                  <option>Brasileira</option>
+                  <option>Brasileira - nascido no exterior ou naturalizado</option>
+                  <option>Estrangeira</option>
+                </select>
+              </div>
+              <div class="field span-4 hidden" id="fieldPaisNacionalidade">
+                <label for="paisNacionalidade">País da nacionalidade</label>
+                <input id="paisNacionalidade" name="paisNacionalidade" type="text">
+              </div>
+              <div class="field span-4">
+                <label for="ufNascimento">UF de nascimento</label>
+                <input id="ufNascimento" name="ufNascimento" type="text" maxlength="2">
+              </div>
+              <div class="field span-8">
+                <label for="municipioNascimento">Município de nascimento</label>
+                <input id="municipioNascimento" name="municipioNascimento" type="text">
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>3. Deficiência, TEA ou altas habilidades</h3>
+            <p class="section-note">
+              Marque a opção correspondente. Novos campos serão exibidos quando necessário.
+            </p>
+            <div class="grid">
+              <div class="field span-12">
+                <span class="group-label">Gestor(a) com deficiência, transtorno do espectro autista ou altas habilidades/superdotação?</span>
+                <div class="options">
+                  <label class="option"><input type="radio" name="temDeficiencia" value="Sim"> Sim</label>
+                  <label class="option"><input type="radio" name="temDeficiencia" value="Não"> Não</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="blocoDeficiencia">
+              <h4>Tipo informado</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Baixa visão"> Baixa visão</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Cegueira"> Cegueira</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Surdez"> Surdez</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Deficiência auditiva"> Deficiência auditiva</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Deficiência física"> Deficiência física</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Deficiência intelectual"> Deficiência intelectual</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Deficiência múltipla"> Deficiência múltipla</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Surdocegueira"> Surdocegueira</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Visão monocular"> Visão monocular</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Transtorno do espectro autista"> Transtorno do espectro autista</label>
+                <label class="option"><input type="checkbox" name="tipoCondicao" value="Altas habilidades ou superdotação"> Altas habilidades ou superdotação</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4. Área residencial</h3>
+            <p class="section-note">
+              Informe os dados da residência do(a) gestor(a).
+            </p>
+            <div class="grid">
+              <div class="field span-4">
+                <label for="paisResidencia">País de residência</label>
+                <input id="paisResidencia" name="paisResidencia" type="text" value="Brasil">
+              </div>
+              <div class="field span-4">
+                <label for="cep">CEP</label>
+                <input id="cep" name="cep" type="text" placeholder="00000-000">
+              </div>
+              <div class="field span-4">
+                <label for="ufResidencia">UF</label>
+                <input id="ufResidencia" name="ufResidencia" type="text" maxlength="2">
+              </div>
+              <div class="field span-6">
+                <label for="municipioResidencia">Município</label>
+                <input id="municipioResidencia" name="municipioResidencia" type="text">
+              </div>
+              <div class="field span-3">
+                <label for="zonaResidencia">Localização/zona de residência</label>
+                <select id="zonaResidencia" name="zonaResidencia">
+                  <option value="">Selecione</option>
+                  <option>Urbana</option>
+                  <option>Rural</option>
+                </select>
+              </div>
+              <div class="field span-3">
+                <label for="localizacaoDiferenciada">Localização diferenciada</label>
+                <select id="localizacaoDiferenciada" name="localizacaoDiferenciada">
+                  <option value="">Selecione</option>
+                  <option>Não se aplica</option>
+                  <option>Área de assentamento</option>
+                  <option>Terra indígena</option>
+                  <option>Área remanescente de quilombo</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5. Escolaridade e formação</h3>
+            <p class="section-note">
+              Responda sobre escolaridade, cursos superiores, pós-graduação e formação continuada.
+            </p>
+            <div class="grid">
+              <div class="field span-4">
+                <label for="maiorEscolaridade">Maior nível de escolaridade concluído</label>
+                <select id="maiorEscolaridade" name="maiorEscolaridade">
+                  <option value="">Selecione</option>
+                  <option>Educação superior</option>
+                  <option>Ensino médio</option>
+                  <option>Ensino fundamental</option>
+                  <option>Não concluiu o ensino fundamental</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="tipoEnsinoMedio">Tipo de ensino médio cursado</label>
+                <select id="tipoEnsinoMedio" name="tipoEnsinoMedio">
+                  <option value="">Selecione</option>
+                  <option>Formação geral</option>
+                  <option>Modalidade normal/magistério</option>
+                  <option>Curso técnico</option>
+                  <option>Magistério indígena - modalidade normal</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="posGraduacao">Maior nível de pós-graduação concluído</label>
+                <select id="posGraduacao" name="posGraduacao">
+                  <option value="">Selecione</option>
+                  <option>Não possui</option>
+                  <option>Especialização</option>
+                  <option>Mestrado</option>
+                  <option>Doutorado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="blocoSuperior">
+              <h4>Dados do curso superior</h4>
+              <p class="section-note">O modelo em Word permite informar até 3 cursos superiores.</p>
+
+              <div class="subsection">
+                <h4>Curso superior 1</h4>
+                <div class="grid">
+                  <div class="field span-4">
+                    <label for="curso1Area">Área do curso superior</label>
+                    <input id="curso1Area" name="curso1Area" type="text">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso1Grau">Nível/grau acadêmico</label>
+                    <select id="curso1Grau" name="curso1Grau">
+                      <option value="">Selecione</option>
+                      <option>Licenciatura</option>
+                      <option>Bacharelado</option>
+                      <option>Tecnológico</option>
+                      <option>Sequencial</option>
+                    </select>
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso1Nome">Curso superior</label>
+                    <input id="curso1Nome" name="curso1Nome" type="text">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso1Ano">Ano de conclusão</label>
+                    <input id="curso1Ano" name="curso1Ano" type="number" min="1900" max="2100">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso1TipoInstituicao">Tipo de instituição</label>
+                    <select id="curso1TipoInstituicao" name="curso1TipoInstituicao">
+                      <option value="">Selecione</option>
+                      <option>Pública</option>
+                      <option>Privada</option>
+                    </select>
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso1Ies">Instituição de educação superior</label>
+                    <input id="curso1Ies" name="curso1Ies" type="text">
+                  </div>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4>Curso superior 2</h4>
+                <div class="grid">
+                  <div class="field span-4">
+                    <label for="curso2Area">Área do curso superior</label>
+                    <input id="curso2Area" name="curso2Area" type="text">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso2Grau">Nível/grau acadêmico</label>
+                    <select id="curso2Grau" name="curso2Grau">
+                      <option value="">Selecione</option>
+                      <option>Licenciatura</option>
+                      <option>Bacharelado</option>
+                      <option>Tecnológico</option>
+                      <option>Sequencial</option>
+                    </select>
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso2Nome">Curso superior</label>
+                    <input id="curso2Nome" name="curso2Nome" type="text">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso2Ano">Ano de conclusão</label>
+                    <input id="curso2Ano" name="curso2Ano" type="number" min="1900" max="2100">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso2TipoInstituicao">Tipo de instituição</label>
+                    <select id="curso2TipoInstituicao" name="curso2TipoInstituicao">
+                      <option value="">Selecione</option>
+                      <option>Pública</option>
+                      <option>Privada</option>
+                    </select>
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso2Ies">Instituição de educação superior</label>
+                    <input id="curso2Ies" name="curso2Ies" type="text">
+                  </div>
+                </div>
+              </div>
+
+              <div class="subsection">
+                <h4>Curso superior 3</h4>
+                <div class="grid">
+                  <div class="field span-4">
+                    <label for="curso3Area">Área do curso superior</label>
+                    <input id="curso3Area" name="curso3Area" type="text">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso3Grau">Nível/grau acadêmico</label>
+                    <select id="curso3Grau" name="curso3Grau">
+                      <option value="">Selecione</option>
+                      <option>Licenciatura</option>
+                      <option>Bacharelado</option>
+                      <option>Tecnológico</option>
+                      <option>Sequencial</option>
+                    </select>
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso3Nome">Curso superior</label>
+                    <input id="curso3Nome" name="curso3Nome" type="text">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso3Ano">Ano de conclusão</label>
+                    <input id="curso3Ano" name="curso3Ano" type="number" min="1900" max="2100">
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso3TipoInstituicao">Tipo de instituição</label>
+                    <select id="curso3TipoInstituicao" name="curso3TipoInstituicao">
+                      <option value="">Selecione</option>
+                      <option>Pública</option>
+                      <option>Privada</option>
+                    </select>
+                  </div>
+                  <div class="field span-4">
+                    <label for="curso3Ies">Instituição de educação superior</label>
+                    <input id="curso3Ies" name="curso3Ies" type="text">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h4>Pós-graduações concluídas</h4>
+              <div class="grid">
+                <div class="field span-4">
+                  <label for="temPosGraduacaoDetalhada">Há pós-graduações concluídas?</label>
+                  <select id="temPosGraduacaoDetalhada" name="temPosGraduacaoDetalhada">
+                    <option value="">Selecione</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection" id="blocoPosGraduacao">
+              <h4>Detalhamento da pós-graduação</h4>
+              <p class="section-note">O modelo em Word permite informar até 6 cursos de pós-graduação.</p>
+              <div class="grid">
+                <div class="field span-4">
+                  <label for="pos1Nivel">Pós-graduação 1 • nível</label>
+                  <select id="pos1Nivel" name="pos1Nivel">
+                    <option value="">Selecione</option>
+                    <option>Especialização</option>
+                    <option>Mestrado</option>
+                    <option>Doutorado</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="pos1Area">Pós-graduação 1 • área</label>
+                  <input id="pos1Area" name="pos1Area" type="text">
+                </div>
+                <div class="field span-4">
+                  <label for="pos1Ano">Pós-graduação 1 • ano</label>
+                  <input id="pos1Ano" name="pos1Ano" type="number" min="1900" max="2100">
+                </div>
+
+                <div class="field span-4">
+                  <label for="pos2Nivel">Pós-graduação 2 • nível</label>
+                  <select id="pos2Nivel" name="pos2Nivel">
+                    <option value="">Selecione</option>
+                    <option>Especialização</option>
+                    <option>Mestrado</option>
+                    <option>Doutorado</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="pos2Area">Pós-graduação 2 • área</label>
+                  <input id="pos2Area" name="pos2Area" type="text">
+                </div>
+                <div class="field span-4">
+                  <label for="pos2Ano">Pós-graduação 2 • ano</label>
+                  <input id="pos2Ano" name="pos2Ano" type="number" min="1900" max="2100">
+                </div>
+
+                <div class="field span-4">
+                  <label for="pos3Nivel">Pós-graduação 3 • nível</label>
+                  <select id="pos3Nivel" name="pos3Nivel">
+                    <option value="">Selecione</option>
+                    <option>Especialização</option>
+                    <option>Mestrado</option>
+                    <option>Doutorado</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="pos3Area">Pós-graduação 3 • área</label>
+                  <input id="pos3Area" name="pos3Area" type="text">
+                </div>
+                <div class="field span-4">
+                  <label for="pos3Ano">Pós-graduação 3 • ano</label>
+                  <input id="pos3Ano" name="pos3Ano" type="number" min="1900" max="2100">
+                </div>
+
+                <div class="field span-4">
+                  <label for="pos4Nivel">Pós-graduação 4 • nível</label>
+                  <select id="pos4Nivel" name="pos4Nivel">
+                    <option value="">Selecione</option>
+                    <option>Especialização</option>
+                    <option>Mestrado</option>
+                    <option>Doutorado</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="pos4Area">Pós-graduação 4 • área</label>
+                  <input id="pos4Area" name="pos4Area" type="text">
+                </div>
+                <div class="field span-4">
+                  <label for="pos4Ano">Pós-graduação 4 • ano</label>
+                  <input id="pos4Ano" name="pos4Ano" type="number" min="1900" max="2100">
+                </div>
+
+                <div class="field span-4">
+                  <label for="pos5Nivel">Pós-graduação 5 • nível</label>
+                  <select id="pos5Nivel" name="pos5Nivel">
+                    <option value="">Selecione</option>
+                    <option>Especialização</option>
+                    <option>Mestrado</option>
+                    <option>Doutorado</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="pos5Area">Pós-graduação 5 • área</label>
+                  <input id="pos5Area" name="pos5Area" type="text">
+                </div>
+                <div class="field span-4">
+                  <label for="pos5Ano">Pós-graduação 5 • ano</label>
+                  <input id="pos5Ano" name="pos5Ano" type="number" min="1900" max="2100">
+                </div>
+
+                <div class="field span-4">
+                  <label for="pos6Nivel">Pós-graduação 6 • nível</label>
+                  <select id="pos6Nivel" name="pos6Nivel">
+                    <option value="">Selecione</option>
+                    <option>Especialização</option>
+                    <option>Mestrado</option>
+                    <option>Doutorado</option>
+                  </select>
+                </div>
+                <div class="field span-4">
+                  <label for="pos6Area">Pós-graduação 6 • área</label>
+                  <input id="pos6Area" name="pos6Area" type="text">
+                </div>
+                <div class="field span-4">
+                  <label for="pos6Ano">Pós-graduação 6 • ano</label>
+                  <input id="pos6Ano" name="pos6Ano" type="number" min="1900" max="2100">
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h4>Áreas de formação continuada</h4>
+              <div class="options">
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Creche (0 a 3 anos)"> Creche (0 a 3 anos)</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Pré-escola (4 e 5 anos)"> Pré-escola (4 e 5 anos)</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Anos iniciais do ensino fundamental"> Anos iniciais do ensino fundamental</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Anos finais do ensino fundamental"> Anos finais do ensino fundamental</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Ensino médio"> Ensino médio</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação de jovens e adultos"> Educação de jovens e adultos</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação indígena"> Educação indígena</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação especial"> Educação especial</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação do campo"> Educação do campo</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação ambiental"> Educação ambiental</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação em direitos humanos"> Educação em direitos humanos</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação bilíngue de surdos"> Educação bilíngue de surdos</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação e Tecnologia da Informação e Comunicação (TIC)"> Educação e Tecnologia da Informação e Comunicação (TIC)</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Direitos da criança e do adolescente"> Direitos da criança e do adolescente</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Educação para as relações étnico-raciais e história e cultura afro-brasileira e africana"> Educação para as relações étnico-raciais e história e cultura afro-brasileira e africana</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Gênero e diversidade sexual"> Gênero e diversidade sexual</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Gestão escolar"> Gestão escolar</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Outros"> Outros</label>
+                <label class="option"><input type="checkbox" name="formacaoContinuada" value="Nenhum"> Nenhum</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>6. Dados de vínculo</h3>
+            <p class="section-note">
+              Informe cargo, critério de acesso, vínculo e contato do(a) gestor(a).
+            </p>
+            <div class="grid">
+              <div class="field span-4">
+                <label for="cargo">Cargo</label>
+                <select id="cargo" name="cargo">
+                  <option value="">Selecione</option>
+                  <option>Diretor(a)</option>
+                  <option>Outro cargo</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="tipoEscola">Tipo de escola</label>
+                <select id="tipoEscola" name="tipoEscola">
+                  <option value="">Selecione</option>
+                  <option>Pública</option>
+                  <option>Privada</option>
+                </select>
+              </div>
+              <div class="field span-4">
+                <label for="vinculo">Situação funcional/regime de contratação/tipo de vínculo</label>
+                <select id="vinculo" name="vinculo">
+                  <option value="">Selecione</option>
+                  <option>Concursado/efetivo/estável</option>
+                  <option>Contrato temporário</option>
+                  <option>Contrato terceirizado</option>
+                  <option>Contrato CLT</option>
+                  <option>Outro</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="criteriosPublica">
+              <h4>Critério de acesso ao cargo/função • Escola pública</h4>
+              <div class="options">
+                <label class="option"><input type="radio" name="criterioPublica" value="Exclusivamente por indicação/escolha da gestão"> Exclusivamente por indicação/escolha da gestão</label>
+                <label class="option"><input type="radio" name="criterioPublica" value="Processo seletivo qualificado e escolha/nomeação da gestão"> Processo seletivo qualificado e escolha/nomeação da gestão</label>
+                <label class="option"><input type="radio" name="criterioPublica" value="Concurso público específico para o cargo de gestor(a) escolar"> Concurso público específico para o cargo de gestor(a) escolar</label>
+                <label class="option"><input type="radio" name="criterioPublica" value="Exclusivamente por processo eleitoral com a participação da comunidade escolar"> Exclusivamente por processo eleitoral com a participação da comunidade escolar</label>
+                <label class="option"><input type="radio" name="criterioPublica" value="Processo seletivo qualificado e eleição com a participação da comunidade escolar"> Processo seletivo qualificado e eleição com a participação da comunidade escolar</label>
+                <label class="option"><input type="radio" name="criterioPublica" value="Outros"> Outros</label>
+              </div>
+            </div>
+
+            <div class="subsection hidden" id="criteriosPrivada">
+              <h4>Critério de acesso ao cargo/função • Escola privada</h4>
+              <div class="options">
+                <label class="option"><input type="radio" name="criterioPrivada" value="Ser proprietário(a) ou sócio(a)-proprietário(a) da escola"> Ser proprietário(a) ou sócio(a)-proprietário(a) da escola</label>
+                <label class="option"><input type="radio" name="criterioPrivada" value="Exclusivamente por indicação/escolha da gestão"> Exclusivamente por indicação/escolha da gestão</label>
+                <label class="option"><input type="radio" name="criterioPrivada" value="Processo seletivo qualificado e escolha/nomeação da gestão"> Processo seletivo qualificado e escolha/nomeação da gestão</label>
+                <label class="option"><input type="radio" name="criterioPrivada" value="Outros"> Outros</label>
+              </div>
+            </div>
+
+            <div class="grid" style="margin-top: 18px;">
+              <div class="field span-6">
+                <label for="email">Endereço eletrônico (e-mail)</label>
+                <input id="email" name="email" type="email" placeholder="nome@exemplo.com">
+              </div>
+              <div class="field span-6">
+                <label for="telefone">Telefone</label>
+                <input id="telefone" name="telefone" type="text" placeholder="(00) 00000-0000">
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>7. Observações</h3>
+            <p class="section-note">
+              Use este campo para registrar observações adicionais, se necessário.
+            </p>
+            <div class="grid">
+              <div class="field span-12">
+                <label for="observacoes">Observações</label>
+                <textarea id="observacoes" name="observacoes"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <div class="footer-actions">
+            <span class="note">Os dados podem ser salvos localmente no navegador como rascunho.</span>
+            <div class="actions" style="margin-top: 0;">
+              <button type="button" class="secondary" id="clearDraft">Limpar rascunho</button>
+              <button type="button" class="secondary" id="saveDatabaseBottom">Salvar no banco</button>
+              <button type="button" class="secondary" id="sendSheetsBottom">Enviar para Google Sheets</button>
+              <button type="button" class="secondary" id="exportBottom">Gerar JSON</button>
+              <button type="submit" class="primary">Validar e preparar dados</button>
+            </div>
+          </div>
+        </form>
+
+        <section class="records">
+          <div class="records-header">
+            <div>
+              <h3>Banco de dados local</h3>
+              <p class="section-note">As respostas salvas ficam registradas neste navegador e podem ser reabertas ou exportadas.</p>
+            </div>
+            <button type="button" class="secondary" id="exportDatabase">Exportar banco em JSON</button>
+          </div>
+          <div class="status" id="dbStatus">Banco pronto para receber respostas.</div>
+          <div class="records-list" id="recordsList"></div>
+        </section>
+
+        <section class="records">
+          <div class="records-header">
+            <div>
+              <h3>Integração com Google Sheets</h3>
+              <p class="section-note">Com a URL do Web App configurada, cada envio é gravado em uma planilha do seu Google Drive.</p>
+            </div>
+          </div>
+          <div class="integration-grid">
+            <div class="field span-12">
+              <label for="sheetStatus">Status da integração</label>
+              <div class="status" id="sheetStatus">Integração ainda não configurada.</div>
+            </div>
+          </div>
+        </section>
+
+        <pre class="export-area hidden" id="exportArea"></pre>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("gestorForm");
+    const exportArea = document.getElementById("exportArea");
+    const dbStatus = document.getElementById("dbStatus");
+    const sheetStatus = document.getElementById("sheetStatus");
+    const recordsList = document.getElementById("recordsList");
+    const storageKey = "questionario-gestor-escolar-2025";
+    const scriptUrlStorageKey = "questionario-gestor-escolar-google-script-url";
+    const dbName = "questionario-gestor-escolar-db";
+    const dbVersion = 1;
+    const storeName = "respostas";
+    let db;
+
+    const refs = {
+      corRaca: document.getElementById("corRaca"),
+      blocoIndigena: document.getElementById("blocoIndigena"),
+      nacionalidade: document.getElementById("nacionalidade"),
+      fieldPaisNacionalidade: document.getElementById("fieldPaisNacionalidade"),
+      blocoDeficiencia: document.getElementById("blocoDeficiencia"),
+      maiorEscolaridade: document.getElementById("maiorEscolaridade"),
+      blocoSuperior: document.getElementById("blocoSuperior"),
+      tipoEscola: document.getElementById("tipoEscola"),
+      criteriosPublica: document.getElementById("criteriosPublica"),
+      criteriosPrivada: document.getElementById("criteriosPrivada"),
+      temPosGraduacaoDetalhada: document.getElementById("temPosGraduacaoDetalhada"),
+      blocoPosGraduacao: document.getElementById("blocoPosGraduacao")
+    };
+
+    function toggleSection(element, show) {
+      element.classList.toggle("hidden", !show);
+    }
+
+    function setStatus(message) {
+      dbStatus.textContent = message;
+    }
+
+    function setSheetStatus(message) {
+      sheetStatus.textContent = message;
+    }
+
+    function downloadJson(filename, data) {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function getScriptUrl() {
+      return (document.getElementById("googleScriptUrl").value || "").trim();
+    }
+
+    function loadScriptUrl() {
+      const saved = localStorage.getItem(scriptUrlStorageKey) || "";
+      document.getElementById("googleScriptUrl").value = saved;
+      setSheetStatus(saved ? "URL do Google Sheets configurada e pronta para envio." : "Integração ainda não configurada.");
+    }
+
+    function saveScriptUrl() {
+      const value = getScriptUrl();
+      if (!value) {
+        setSheetStatus("Informe a URL do Web App do Google Apps Script.");
+        return;
+      }
+
+      if (!value.includes("/exec")) {
+        setSheetStatus("Use a URL publicada do Web App, de preferencia terminando com /exec.");
+        return;
+      }
+
+      localStorage.setItem(scriptUrlStorageKey, value);
+      setSheetStatus("URL do Google Sheets salva neste navegador.");
+    }
+
+    function formDataToObject() {
+      const data = new FormData(form);
+      const result = {};
+
+      for (const [key, value] of data.entries()) {
+        if (result[key]) {
+          if (!Array.isArray(result[key])) {
+            result[key] = [result[key]];
+          }
+          result[key].push(value);
+        } else {
+          result[key] = value;
+        }
+      }
+
+      const checkboxGroups = ["tipoCondicao", "formacaoContinuada"];
+      checkboxGroups.forEach((name) => {
+        if (!result[name]) {
+          result[name] = [];
+        } else if (!Array.isArray(result[name])) {
+          result[name] = [result[name]];
+        }
+      });
+
+      return result;
+    }
+
+    function saveDraft() {
+      const data = formDataToObject();
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      renderSummary(data);
+      alert("Rascunho salvo neste navegador.");
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) {
+        renderSummary({});
+        syncConditionalBlocks();
+        return;
+      }
+
+      const data = JSON.parse(raw);
+      Object.entries(data).forEach(([key, value]) => {
+        const fields = form.elements[key];
+        if (!fields) {
+          return;
+        }
+
+        if (fields instanceof RadioNodeList) {
+          if (Array.isArray(value)) {
+            Array.from(fields).forEach((field) => {
+              field.checked = value.includes(field.value);
+            });
+          } else {
+            fields.value = value;
+          }
+          return;
+        }
+
+        if (fields.type === "checkbox") {
+          fields.checked = Array.isArray(value) ? value.includes(fields.value) : fields.value === value;
+          return;
+        }
+
+        fields.value = Array.isArray(value) ? value[0] : value;
+      });
+
+      syncConditionalBlocks();
+      renderSummary(data);
+    }
+
+    function clearDraft() {
+      localStorage.removeItem(storageKey);
+      form.reset();
+      syncConditionalBlocks();
+      renderSummary({});
+      exportArea.classList.add("hidden");
+      alert("Rascunho removido.");
+    }
+
+    function renderSummary(data) {
+      document.getElementById("summaryNome").textContent = data.nomeCompleto || "Não informado";
+      document.getElementById("summaryCpf").textContent = data.cpf || "Não informado";
+      document.getElementById("summaryEscola").textContent = data.codigoEscola || "Não informado";
+      document.getElementById("summaryVinculo").textContent = data.vinculo || "Não informado";
+      document.getElementById("summaryEmail").textContent = data.email || "Não informado";
+    }
+
+    function openDatabase() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, dbVersion);
+
+        request.onupgradeneeded = () => {
+          const database = request.result;
+          if (!database.objectStoreNames.contains(storeName)) {
+            const store = database.createObjectStore(storeName, { keyPath: "id", autoIncrement: true });
+            store.createIndex("cpf", "cpf", { unique: false });
+            store.createIndex("codigoEscola", "codigoEscola", { unique: false });
+            store.createIndex("updatedAt", "updatedAt", { unique: false });
+          }
+        };
+
+        request.onsuccess = () => {
+          db = request.result;
+          resolve(db);
+        };
+
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function getStore(mode = "readonly") {
+      return db.transaction(storeName, mode).objectStore(storeName);
+    }
+
+    function requestToPromise(request) {
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function listRecords() {
+      if (!db) {
+        return [];
+      }
+
+      const records = await requestToPromise(getStore().getAll());
+      return records.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    }
+
+    async function renderRecords() {
+      const records = await listRecords();
+      recordsList.innerHTML = "";
+
+      if (!records.length) {
+        recordsList.innerHTML = "<div class='record-card'><strong>Nenhum registro salvo ainda.</strong><span class='record-meta'>Use o botão \"Salvar no banco\" para criar o primeiro cadastro.</span></div>";
+        return;
+      }
+
+      records.forEach((record) => {
+        const card = document.createElement("div");
+        card.className = "record-card";
+        card.innerHTML = `
+          <strong>${record.nomeCompleto || "Gestor(a) sem nome"}</strong>
+          <div class="record-meta">
+            CPF: ${record.cpf || "Não informado"} • Escola: ${record.codigoEscola || "Não informada"} • Atualizado em: ${new Date(record.updatedAt).toLocaleString("pt-BR")}
+          </div>
+          <span>${record.email || "Sem e-mail"} • ${record.vinculo || "Sem vínculo informado"}</span>
+          <div class="record-actions">
+            <button type="button" class="secondary" data-action="load" data-id="${record.id}">Carregar</button>
+            <button type="button" class="secondary" data-action="export" data-id="${record.id}">Exportar JSON</button>
+          </div>
+        `;
+        recordsList.appendChild(card);
+      });
+    }
+
+    function populateForm(data) {
+      form.reset();
+
+      Object.entries(data).forEach(([key, value]) => {
+        if (["id", "createdAt", "updatedAt"].includes(key)) {
+          return;
+        }
+
+        const fields = form.elements[key];
+        if (!fields) {
+          return;
+        }
+
+        if (fields instanceof RadioNodeList) {
+          if (Array.isArray(value)) {
+            Array.from(fields).forEach((field) => {
+              field.checked = value.includes(field.value);
+            });
+          } else {
+            fields.value = value;
+          }
+          return;
+        }
+
+        if (fields.type === "checkbox") {
+          fields.checked = Array.isArray(value) ? value.includes(fields.value) : fields.value === value;
+          return;
+        }
+
+        fields.value = Array.isArray(value) ? value[0] : value;
+      });
+
+      syncConditionalBlocks();
+      renderSummary(formDataToObject());
+    }
+
+    async function saveToDatabase() {
+      const data = formDataToObject();
+      const now = new Date().toISOString();
+
+      const record = {
+        ...data,
+        createdAt: now,
+        updatedAt: now
+      };
+
+      const request = getStore("readwrite").add(record);
+      const id = await requestToPromise(request);
+      setStatus(`Resposta salva no banco com sucesso. Registro #${id}.`);
+      await renderRecords();
+    }
+
+    async function getRecordById(id) {
+      return requestToPromise(getStore().get(Number(id)));
+    }
+
+    async function exportDatabase() {
+      const records = await listRecords();
+      downloadJson("questionario-gestor-escolar-banco.json", records);
+      setStatus(`Exportacao concluida com ${records.length} registro(s).`);
+    }
+
+    async function sendToGoogleSheets() {
+      const scriptUrl = getScriptUrl();
+      if (!scriptUrl) {
+        setSheetStatus("Cole a URL do Web App do Google Apps Script antes de enviar.");
+        return;
+      }
+
+      const payload = {
+        submittedAt: new Date().toISOString(),
+        source: "formulario-gestor-escolar-2025",
+        data: formDataToObject()
+      };
+
+      setSheetStatus("Enviando resposta para o Google Sheets...");
+
+      try {
+        const response = await fetch(scriptUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const rawText = await response.text();
+        let result = {};
+
+        try {
+          result = rawText ? JSON.parse(rawText) : {};
+        } catch (parseError) {
+          result = { rawText };
+        }
+
+        if (!response.ok) {
+          const details = result.message || result.rawText || `${response.status} ${response.statusText}`;
+          throw new Error(`HTTP ${response.status}: ${String(details).slice(0, 180)}`);
+        }
+
+        if (result.ok === false) {
+          throw new Error(result.message || result.rawText || "Falha ao gravar na planilha.");
+        }
+
+        setSheetStatus("Resposta enviada com sucesso para o Google Sheets.");
+      } catch (error) {
+        setSheetStatus(`Falha no envio: ${error.message}`);
+      }
+    }
+
+    function syncConditionalBlocks() {
+      toggleSection(refs.blocoIndigena, refs.corRaca.value === "Indígena");
+      toggleSection(refs.fieldPaisNacionalidade, refs.nacionalidade.value === "Estrangeira");
+
+      const temDeficiencia = form.querySelector("input[name='temDeficiencia']:checked")?.value === "Sim";
+      toggleSection(refs.blocoDeficiencia, temDeficiencia);
+
+      toggleSection(refs.blocoSuperior, refs.maiorEscolaridade.value === "Educação superior");
+      toggleSection(refs.criteriosPublica, refs.tipoEscola.value === "Pública");
+      toggleSection(refs.criteriosPrivada, refs.tipoEscola.value === "Privada");
+      toggleSection(refs.blocoPosGraduacao, refs.temPosGraduacaoDetalhada.value !== "Não");
+    }
+
+    function exportJson() {
+      const data = formDataToObject();
+      renderSummary(data);
+      exportArea.textContent = JSON.stringify(data, null, 2);
+      exportArea.classList.remove("hidden");
+      exportArea.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    form.addEventListener("change", () => {
+      syncConditionalBlocks();
+      renderSummary(formDataToObject());
+    });
+
+    form.addEventListener("input", () => {
+      renderSummary(formDataToObject());
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      exportJson();
+    });
+
+    recordsList.addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) {
+        return;
+      }
+
+      const record = await getRecordById(button.dataset.id);
+      if (!record) {
+        setStatus("Nao foi possivel localizar esse registro no banco.");
+        return;
+      }
+
+      if (button.dataset.action === "load") {
+        populateForm(record);
+        setStatus(`Registro #${record.id} carregado no formulario.`);
+      }
+
+      if (button.dataset.action === "export") {
+        downloadJson(`questionario-gestor-escolar-${record.id}.json`, record);
+        setStatus(`Registro #${record.id} exportado em JSON.`);
+      }
+    });
+
+    document.getElementById("saveDraftTop").addEventListener("click", saveDraft);
+    document.getElementById("saveDatabaseTop").addEventListener("click", saveToDatabase);
+    document.getElementById("saveDatabaseBottom").addEventListener("click", saveToDatabase);
+    document.getElementById("sendSheetsTop").addEventListener("click", sendToGoogleSheets);
+    document.getElementById("sendSheetsBottom").addEventListener("click", sendToGoogleSheets);
+    document.getElementById("exportTop").addEventListener("click", exportJson);
+    document.getElementById("exportBottom").addEventListener("click", exportJson);
+    document.getElementById("clearDraft").addEventListener("click", clearDraft);
+    document.getElementById("exportDatabase").addEventListener("click", exportDatabase);
+    document.getElementById("saveScriptUrl").addEventListener("click", saveScriptUrl);
+
+    async function init() {
+      loadDraft();
+      loadScriptUrl();
+
+      try {
+        await openDatabase();
+        setStatus("Banco de dados local conectado.");
+        await renderRecords();
+      } catch (error) {
+        setStatus("Nao foi possivel iniciar o banco de dados local neste navegador.");
+        console.error(error);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
