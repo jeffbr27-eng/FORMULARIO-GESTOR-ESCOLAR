@@ -22,7 +22,7 @@ Arquivos:
 
 ## Resultado
 
-- - O formulário do gestor envia o campo `sheetName` com `Respostas Gestor`, e o formulário da escola envia `Respostas Escola` (o Apps Script deve usar esse campo para separar em abas diferentes).
+- O formulário do gestor envia o campo `sheetName` com `Respostas Gestor`, e o formulário da escola envia `Respostas Escola` (o Apps Script deve usar esse campo para separar em abas diferentes).
 - Na lista de registros salvos localmente, use `Imprimir ficha` para carregar o cadastro individual e imprimir em folha no mesmo estilo do formulário digital.
 
 ## Observacao
