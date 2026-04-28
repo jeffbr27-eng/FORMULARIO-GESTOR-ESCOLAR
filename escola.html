@@ -5,6 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Questionário de Escola 2025</title>
   <style>
+    @media print {
+  body {
+    background: #fff;
+  }
+
+  .sidebar,
+  .records,
+  #exportArea,
+  .footer-actions,
+  .actions {
+    display: none !important;
+  }
+
+  .page {
+    width: 100%;
+    margin: 0;
+  }
+
+  .hero,
+  .section {
+    box-shadow: none;
+    border: 1px solid #d0d7d2;
+    break-inside: avoid;
+  }
+}
     :root {
       --bg: #edf3ef;
       --surface: #ffffff;
